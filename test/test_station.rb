@@ -22,7 +22,7 @@ class TestStation < MiniTest::Unit::TestCase
   def test_station_can_release_bike
     @station.receive_bike(Bike.new)  	
     assert_equal 1,  @station.number_of_bikes
-  	bike = @station.release_bike
+  	bike = @station.release_bike(bike)
   	assert_equal 0,  @station.number_of_bikes
     assert_instance_of Bike, bike
   end
