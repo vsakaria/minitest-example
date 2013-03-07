@@ -7,4 +7,4 @@ gem "guard-minitest"
 gem 'rb-fsevent', '~> 0.9.1'
 gem "ansi"
 gem 'turn'
-# gem "growl"
+gem "terminal-notifier-guard"
