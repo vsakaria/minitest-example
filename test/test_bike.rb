@@ -18,6 +18,11 @@ class TestBike < MiniTest::Unit::TestCase
     assert @bike.broken?
   end
 
+  def test_bike_can_be_fixed
+    @bike.fix!
+    assert @bike.broken? == false
+  end
+
 private
   
   def helper
