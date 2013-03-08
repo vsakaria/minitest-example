@@ -9,11 +9,12 @@ class Person
   end
 
   def take_bike_from(station)
-    unless has_bike? do |foundbike|
-        foundbike = @station.bikes.find(first) 
-        @bike = station.release_bike(foundbike) 
-      end  
-    end
+    @bike = station.release_bike(@bike)
+    # unless has_bike? do |foundbike|
+    #     foundbike = @station.bikes.find(first) 
+        # @bike = station.release_bike(foundbike) 
+    #   end  
+    # end
   end
 
   def return_bike(station)
