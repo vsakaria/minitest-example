@@ -3,19 +3,21 @@ require './lib/station'
 require './lib/bike'
 require 'minitest/autorun' # the minitest itself
 require 'ansi' # makes it colored
-require 'turn' # improves the default output
+# require 'turn' # improves the default output
 
 class TestPerson < MiniTest::Unit::TestCase
 
   def setup
     @person = Person.new
     @station = Station.new
-    # @bike = Bike.new
+    @bike = Bike.new
   end
 
   def test_person_can_take_bike
-    @station.receive_bike(Bike.new)
-    @person.take_bike(@station)
+    assert_equal 0, @station.number_of_bikes
+    @station<<(Bike.new)
+    assert_equal 1, @station.number_of_bikes
+    @person.take_bike_from @station
     assert_equal 0, @station.number_of_bikes
   end
 
@@ -26,8 +28,16 @@ class TestPerson < MiniTest::Unit::TestCase
   end
 
   def test_person_has_bike 
-    @station.receive_bike(Bike.new)
-    @person.take_bike(@station)
+    @station << Bike.new
+    @person.take_bike_from @station
     assert(@person.has_bike?)
+  end
+
+  def test_person_can_only_have_one_bike_at_a_time
+    assert(@person.has_bike? == nil)
+    2.times{@station<<(Bike.new)}
+    @person.take_bike_from @station
+    assert(@person.has_bike?)
+    assert_raises(RuntimeError) {@person.take_bike_from @station}
   end
 end

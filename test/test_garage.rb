@@ -14,6 +14,9 @@ class TestGarage < MiniTest::Unit::TestCase
     @bike = Bike.new
   end
 
+  def test_only_unqiue_bike_can_be_recieved_by_garage
+    assert_raises(RuntimeError) {2.times{@garage << @bike}}
+  end
 
   def test_garage_can_accept_bike
     @bike.break!
@@ -21,24 +24,26 @@ class TestGarage < MiniTest::Unit::TestCase
     assert_equal 1, @garage.number_of_bikes
   end
 
-  def test_garage_can_only_accept_broken_bikes
-    @garage << @bike.break!
-    @workingbike = Bike.new
-    @garage << @workingbike
-    assert_equal 1, @garage.number_of_bikes
-    #@garage.bikes.{|bike| !bike.broken?}
+  def test_garage_can_only_accept_broken_bikes    
+    assert_raises(RuntimeError) { @garage << Bike.new }
+    @garage << Bike.new.break!
+    assert_equal 1, @garage.bikes.count
   end
 
-  def test_garage_can_release_bike
-    @garage << @bike
-    garage.release_bike
-    refute(@garage.number_of_bikes == not nil)
+  def test_garage_can_release_bike    
+    10.times { @garage << Bike.new.break! }
+    bike7 = @garage.bikes[7]
+    assert_equal 10, @garage.bikes.count
+    released_bike = @garage.release_bike(bike7)
+    assert_equal 9, @garage.bikes.count
+    assert_equal bike7, released_bike
   end
 
   def test_garage_can_only_release_fixed_bikes
-    @garage << @bike.break
-    garage.release_bike
-    @bike == !broken?
+    @garage << @bike.break!
+    assert_equal 1, @garage.number_of_bikes
+    @garage.release_bike(@bike)
+    assert_raises(RuntimeError) { @bike == @bike.broken? }
   end
 end
 

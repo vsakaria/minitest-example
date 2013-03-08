@@ -7,8 +7,9 @@ class Station
     @capacity = options.fetch(:capacity, DEFAULT_CAPACITY)
   end
   
-  def receive_bike(bike)
+  def <<(bike)
     raise "Station full" if at_capacity?
+    raise "Bike is already present" if bike_included?(bike)
     @bikes << bike
   end  
 
@@ -25,7 +26,7 @@ class Station
   end
 
   def release_bike(bike)
-    @bikes.pop
+    @bikes.delete bike
   end
 
   def broken_bikes
@@ -35,4 +36,8 @@ class Station
   def working_bikes
     @bikes.select{|bike| !bike.broken? }
   end 
+
+  def bike_included?(bike)
+    @bikes.include?(bike)
+  end
 end

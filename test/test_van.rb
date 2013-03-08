@@ -20,7 +20,7 @@ class TestVan < MiniTest::Unit::TestCase
 
   def test_van_can_release_bikes
     @van << (@bike)
-    assert_equal @bike , @van.release_bike
+    assert_equal @bike , @van.release_bike(@bike)
   end
 
   def test_van_can_return_broken_bikes
@@ -38,5 +38,10 @@ class TestVan < MiniTest::Unit::TestCase
     assert_equal 2, @van.number_of_bikes
     assert_equal 1, @van.working_bikes.length
   end
+
+  def test_only_unqiue_bike_can_be_recieved_by_van
+    assert_raises(RuntimeError) {2.times{@van << @bike}}
+  end
+
 end
 
