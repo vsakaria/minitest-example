@@ -1,4 +1,2 @@
-Use guard to run tests automatically:
-
-run this test with "bundle exec guard -i -c"
+First real experience of testing! Really showed me how important testing is in terms of writting clean concise code.  
 
